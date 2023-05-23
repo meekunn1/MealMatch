@@ -278,7 +278,7 @@ let sportInfoPackage = []; //array of sports information to be sent to local sto
 async function sportSearch(){
   if (sportInfoCurrent === undefined || sportInfoCurrent.length == 0) {
   //sportInfoCurrent = [];
-  for (let i = 0; i < sportSet.length; i++) {
+  for (var i = 0; i < sportSet.length; i++) {
 let searchNinjaUrl = "https://api.api-ninjas.com/v1/caloriesburned?activity=" + sportSet[i];
 await fetch(searchNinjaUrl,
 {headers: { 'X-Api-Key': NINJAS_API},})
