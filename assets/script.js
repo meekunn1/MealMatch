@@ -263,13 +263,13 @@ const displaySportDurationLoop = [walkDuration, runDuration, bikeDuration, swimD
 
 
 //list of variables
-var saveCurrentSport = []; //stores info from API call.
+let saveCurrentSport = []; //stores info from API call.
 // var sampleMenuCalories = 1200;  //sample var used for testing sports code. will be replaced with actual food calories. 
-var sportSet = ["3.0 mph", "6.7 mph", "12-13.9 mph", "treading water, m"]
-var sportInfoCurrent = []; // sports data gets stored here.
-var sportDuration = []; //computed duration gets stored here.
-var sportDurationCurrent = [];  //array of collected durations
-var sportInfoPackage = []; //array of sports information to be sent to local storage for use in recipeDetails page.
+const sportSet = ["3.0 mph", "6.7 mph", "12-13.9 mph", "treading water, m"]
+let sportInfoCurrent = []; // sports data gets stored here.
+let sportDuration = []; //computed duration gets stored here.
+let sportDurationCurrent = [];  //array of collected durations
+let sportInfoPackage = []; //array of sports information to be sent to local storage for use in recipeDetails page.
 
 
 //----------->Get Sport Data-------------------------------------
@@ -278,8 +278,8 @@ var sportInfoPackage = []; //array of sports information to be sent to local sto
 async function sportSearch(){
   if (sportInfoCurrent === undefined || sportInfoCurrent.length == 0) {
   //sportInfoCurrent = [];
-  for (var i = 0; i < sportSet.length; i++) {
-var searchNinjaUrl = "https://api.api-ninjas.com/v1/caloriesburned?activity=" + sportSet[i];
+  for (let i = 0; i < sportSet.length; i++) {
+let searchNinjaUrl = "https://api.api-ninjas.com/v1/caloriesburned?activity=" + sportSet[i];
 await fetch(searchNinjaUrl,
 {headers: { 'X-Api-Key': NINJAS_API},})
 .then(function (response) {
@@ -318,8 +318,8 @@ else {
 //prepares sport information set. waiting to be stored into local storage to be used in recipeDetails page.
 async function sportInfoPackagePrep() {
   sportInfoPackage = [];
-  for (var i = 0; i < sportSet.length; i++) {
-    var set = [sportInfoCurrent[i][0], {duration: sportDurationCurrent[i]}]
+  for (let i = 0; i < sportSet.length; i++) {
+    let set = [sportInfoCurrent[i][0], {duration: sportDurationCurrent[i]}]
     sportInfoPackage.push(set);
   }
   if (i === sportSet.length){
@@ -330,7 +330,7 @@ async function sportInfoPackagePrep() {
 }
 
 // save to local storage
-var mainPackage = [];
+let mainPackage = [];
 function storeIndexInfo() {
   mainPackage.push(sportInfoPackage);  //adds sport information package at end of mainPackage
   localStorage.setItem("MealMatchIndex", JSON.stringify(mainPackage));
@@ -343,8 +343,8 @@ async function computeDuration(recipe) {
   
   sportDurationCurrent = [];
   sportDuration = [];
-  for (var i = 0; i < sportInfoCurrent.length; i++) { 
-    var sportCalories = sportInfoCurrent[i][0].calories_per_hour;
+  for (let i = 0; i < sportInfoCurrent.length; i++) { 
+    let sportCalories = sportInfoCurrent[i][0].calories_per_hour;
   sportDuration = recipe.calories / sportCalories;
   sportDurationCurrent.push(sportDuration);
 }
@@ -353,18 +353,18 @@ async function computeDuration(recipe) {
 //------------------->display-------------------------------
 
 async function sportDisplayCalories() {
-  for (var i = 0; i < displaySportCaloriesLoop.length; i++) { 
+  for (let i = 0; i < displaySportCaloriesLoop.length; i++) { 
     displaySportCaloriesLoop[i].textContent = "Calories: \n " + sportInfoCurrent[i][0].calories_per_hour +"/hour";
   }
 }
 
 async function sportDisplayDuration() {
-  for (var i = 0; i < displaySportDurationLoop.length; i++) { 
+  for (let i = 0; i < displaySportDurationLoop.length; i++) { 
     if (sportDurationCurrent[i] >= 1){
       displaySportDurationLoop[i].textContent = "Duration: \n " + sportDurationCurrent[i].toFixed(1)+ " hours";
     }
     else {
-      var sportDurationMin = sportDurationCurrent[i] * 60
+      let sportDurationMin = sportDurationCurrent[i] * 60
       displaySportDurationLoop[i].textContent = "Duration: \n " + sportDurationMin.toFixed()+ " minutes";
     }
 }
