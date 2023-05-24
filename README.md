@@ -8,16 +8,21 @@ MealMatch is an app designed for foodies and fitness enthusiasts alike! If you w
 - [Repo Wiki](https://github.com/jenho-webdev/MealMatch/wiki)
 
 ## Table of Contents
-- [Technologies Used](#technologies-used)
-- [Wireframe](#wireframe)
-- [Usage](#usage)
-- [Demo](#demo)
-- [API Reference](#api-reference)
-- [Color Reference](#color-reference)
-- [Roadmap](#roadmap)
-- [Authors](#authors)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+- [Meal Match](#meal-match)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Technologies Used](#technologies-used)
+  - [Wireframe](#wireframe)
+  - [Usage/Examples](#usageexamples)
+  - [Demo](#demo)
+  - [API Reference](#api-reference)
+      - [Links to API Documentation](#links-to-api-documentation)
+  - [Color Reference](#color-reference)
+  - [Roadmap](#roadmap)
+  - [Authors](#authors)
+  - [Credits](#credits)
+  - [Acknowledgements](#acknowledgements)
+  - [License](#license)
 
 ## Technologies Used
 
@@ -97,7 +102,10 @@ MealMatch is an app designed for foodies and fitness enthusiasts alike! If you w
 - Gilbert Perez [@Homlesscats](https://github.com/Homelesscats)
 - Douglas Soda [@dsoda86](https://github.com/dsoda86)
 
-
+## Credits
+ 
+ - Jared Kotoff [@jaredkotoff](https://github.com/jaredkotoff)
+ Javascript code and html from Jared Kotoff's [API Key LocalStorage example](https://gist.github.com/jaredkotoff/90af44f1533a6a5ea6d43180efddc375) was used to use API keys without showing it to public.
 ## Acknowledgements
  
  - Shields and badges sourced from [Shield.io](https://shields.io/)

@@ -1,8 +1,74 @@
-
+//simple cut and past from https://gist.github.com/jaredkotoff/90af44f1533a6a5ea6d43180efddc375
+  /*
+  It is bad practice and a security violation to store API keys, passwords, or any sensitive information
+  in git or github. This also makes your code brittle as you may need to change API keys at some point.
+  Deriving your keys from external source, usually though environment variables, not only keeps them safe
+  but also lets you change them easily without having make commits and redeploying your code.
+  This is an example of one way to keep API keys safe when you don't have a server infrastructure to keep
+  them hidden from the public.
+  Every user will need to provide their own key and it will be stored locally in that users browser's localStorage.
+  This also allows everyone in your group to have their own key and prevent everyone in the group causing
+  API rate limits because they were all using one shared key.
+  The important bits are
+  1. creating global API key variables to hold the API keys. Instead of initializing them in the code.
+  2. Immediately calling the loadAPIKeys() function.
+  3. If keys already exist in localStorage, then your app will work as if they were hard-coded values.
+  The second part to this code is implementing a way to let users add their own keys via the form.
+  The form here is made in HTML and hidden once API keys are loaded. You don't have to hide the input form
+  and/or can build the form with JavaScript if you prefer instead. You can also adjust for form
+  to load more than 2 keys if necessary.
+  This isn't a perfect implementation that will work for everyone out-of-the-box.
+  You may have to modify this to work with your own code. This is simply an example.
+  */
 
 //keys that are storaged locally on user's localstorage. will be get when onload
-var NINJAS_API = "qeQ/ixgJ1FhLzMigxs+yag==sahHalNRb0bq0szN";
-var Spoonacular_API = "24ff974f730a4fbf98084b4f1a1c30eb";
+  var API_KEY_1 = '';
+  var API_KEY_2 = '';
+  var API_KEYS_MAP = {
+    API_KEY_1: 'API Ninja',
+    API_KEY_2: 'Spoonacular'
+  }
+
+  var apiKeysForm =  document.getElementById('api-key-form');
+  var apiKeyInput1 = document.getElementById('api-key-1');
+  var apiKeyInput2 = document.getElementById('api-key-2');
+
+  // Loads API keys from localStorage
+  //   If they keys exist, then the form is hidden
+  function loadAPIKeys() {
+    API_KEY_1 = localStorage.getItem(API_KEYS_MAP.API_KEY_1) || '';
+    API_KEY_2 = localStorage.getItem(API_KEYS_MAP.API_KEY_2) || '';
+
+    // require both api keys before hiding the fields
+    if (!API_KEY_1 || !API_KEY_2) {
+      apiKeyInput1.value = API_KEY_1;
+      apiKeyInput2.value = API_KEY_2;
+      apiKeysForm.addEventListener('submit', handleFormSubmit);
+      apiKeysForm.style.display = 'flex';
+    } else {
+      apiKeyInput1.value = '';
+      apiKeyInput2.value = '';
+      apiKeysForm.removeEventListener('submit', handleFormSubmit);
+      apiKeysForm.style.display = 'none';
+    }
+  }
+
+  // Saves the API keys to localStorage and then load them into the app
+  function saveAPIKeys(apiKey1, apiKey2) {
+    localStorage.setItem(API_KEYS_MAP.API_KEY_1, apiKey1);
+    localStorage.setItem(API_KEYS_MAP.API_KEY_2, apiKey2);
+    loadAPIKeys();
+  }
+
+  // When the form is submitted, save the keys to localStorage
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    var apiKey1 = apiKeyInput1.value.trim();
+    var apiKey2 = apiKeyInput2.value.trim();
+    saveAPIKeys(apiKey1,apiKey2);
+  }
+
+//start of MealMatch js codes
 
 //Recipe Request Page DOM
 const searchBtn = document.querySelector("#search");
@@ -47,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function ()
     
   if (document.title === "MealMatch")
   {
-    
+    //runs API script only on index.html
+    loadAPIKeys();
     // Hide the bottom section initially
     resultContainer.classList.add("hide");
     recipeNavBtns.classList.add("hide");
@@ -108,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function ()
 
 
 async function fetchRecipe(cuisine) {
-  const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${Spoonacular_API}&cuisine=${cuisine}&sort=random&number=1&addRecipeNutrition=true&fillIngredients=true`;
+  const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY_2}&cuisine=${cuisine}&sort=random&number=1&addRecipeNutrition=true&fillIngredients=true`;
 
   const apiFetch = await (await fetch(apiUrl)).json();
 
@@ -281,7 +348,7 @@ async function sportSearch(){
   for (var i = 0; i < sportSet.length; i++) {
 let searchNinjaUrl = "https://api.api-ninjas.com/v1/caloriesburned?activity=" + sportSet[i];
 await fetch(searchNinjaUrl,
-{headers: { 'X-Api-Key': NINJAS_API},})
+{headers: { 'X-Api-Key': API_KEY_1},})
 .then(function (response) {
   if (!response.ok) {
     throw response.json();
@@ -315,26 +382,24 @@ else {
 
 //------------------------>set------------------------------
 
+//note: currently unused
 //prepares sport information set. waiting to be stored into local storage to be used in recipeDetails page.
-async function sportInfoPackagePrep() {
-  sportInfoPackage = [];
-  for (let i = 0; i < sportSet.length; i++) {
-    let set = [sportInfoCurrent[i][0], {duration: sportDurationCurrent[i]}]
-    sportInfoPackage.push(set);
-  }
-  if (i === sportSet.length){
-    
-    return;
-  }
-  
-}
+// async function sportInfoPackagePrep() {
+//   sportInfoPackage = [];
+//   for (let i = 0; i < sportSet.length; i++) {
+//     let set = [sportInfoCurrent[i][0], {duration: sportDurationCurrent[i]}]
+//     sportInfoPackage.push(set);
+//   }
+//   if (i === sportSet.length){    
+//     return;
+//   }}
 
-// save to local storage
-let mainPackage = [];
-function storeIndexInfo() {
-  mainPackage.push(sportInfoPackage);  //adds sport information package at end of mainPackage
-  localStorage.setItem("MealMatchIndex", JSON.stringify(mainPackage));
-  };
+// save to local storage. 
+// let mainPackage = [];
+// function storeIndexInfo() {
+//   mainPackage.push(sportInfoPackage);  //adds sport information package at end of mainPackage
+//   localStorage.setItem("MealMatchIndex", JSON.stringify(mainPackage));
+//   };
 
 //------------------->compute-------------------------------
 
