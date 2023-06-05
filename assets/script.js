@@ -263,13 +263,13 @@ const displaySportDurationLoop = [walkDuration, runDuration, bikeDuration, swimD
 
 
 //list of variables
-var saveCurrentSport = []; //stores info from API call.
+let saveCurrentSport = []; //stores info from API call.
 // var sampleMenuCalories = 1200;  //sample var used for testing sports code. will be replaced with actual food calories. 
-var sportSet = ["3.0 mph", "6.7 mph", "12-13.9 mph", "treading water, m"]
-var sportInfoCurrent = []; // sports data gets stored here.
-var sportDuration = []; //computed duration gets stored here.
-var sportDurationCurrent = [];  //array of collected durations
-var sportInfoPackage = []; //array of sports information to be sent to local storage for use in recipeDetails page.
+let sportSet = ["3.0 mph", "6.7 mph", "12-13.9 mph", "treading water, m"]
+let sportInfoCurrent = []; // sports data gets stored here.
+let sportDuration = []; //computed duration gets stored here.
+let sportDurationCurrent = [];  //array of collected durations
+let sportInfoPackage = []; //array of sports information to be sent to local storage for use in recipeDetails page.
 
 
 //----------->Get Sport Data-------------------------------------
